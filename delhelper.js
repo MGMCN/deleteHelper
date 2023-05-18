@@ -10,6 +10,7 @@
 // @grant        none
 // ==/UserScript==
 (function () {
+
     document.addEventListener('click', function (event) {
         if (event.target.closest('#verification_field')) {
             let repositoryName = getGithubUsernameAndRepositoryName();
@@ -18,17 +19,11 @@
 
             inputElement.value = repositoryName;
         } else {
-            const xpath = "//div[@id='mainContainer']/div/div/div[3]/div/div[3]/div[2]/div/span/button";
+            let repositoryName = getDockerHubRepositoryName();
 
-            const result = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
+            let inputElement = document.getElementById('imageNameField');
 
-            if (result) {
-                let inputElement = document.getElementById('imageNameField');
-
-                let repositoryName = getDockerHubRepositoryName();
-
-                inputElement.value = repositoryName;
-            }
+            inputElement.value = repositoryName;
         }
     });
 
@@ -36,7 +31,7 @@
         let url = window.location.href;
         let parts = url.split("/");
 
-        if (parts.length >= 2) {
+        if (parts.length >= 3) {
             let username = parts[parts.length - 3];
             let repository = parts[parts.length - 2];
             return username + '/' + repository + ' ';
